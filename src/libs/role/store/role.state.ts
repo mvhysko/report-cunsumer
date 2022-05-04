@@ -1,11 +1,11 @@
 import { makeAutoObservable } from 'mobx';
 import { Role } from '../../../api';
-import  { rolesService } from '../services';
+import { rolesService } from '../services';
 
 export class RoleState {
   private _role?: Role;
   private _error?: Error;
-  private _loading: boolean = false;
+  private _loading = false;
 
   get role(): Role | undefined {
     return this._role;
@@ -27,9 +27,10 @@ export class RoleState {
     this.setLoading(true);
     this.setError();
 
-    return rolesService.getRole(id)
-      .then(role => this.setRole(role))
-      .catch(err => this.setError(err))
+    return rolesService
+      .getRole(id)
+      .then((role) => this.setRole(role))
+      .catch((err) => this.setError(err))
       .finally(() => this.setLoading(false));
   }
 

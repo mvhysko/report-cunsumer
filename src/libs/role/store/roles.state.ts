@@ -4,7 +4,7 @@ import { rolesService } from '../services';
 
 export class RolesState {
   private _error?: Error;
-  private _loading: boolean = false;
+  private _loading = false;
   private _roles: Role[] = [];
 
   get roles(): ReadonlyArray<Role> {
@@ -27,9 +27,10 @@ export class RolesState {
     this.setLoading(true);
     this.setError();
 
-    return rolesService.getRoles()
-      .then(roles => this.setRoles(roles))
-      .catch(err => this.setError(err))
+    return rolesService
+      .getRoles()
+      .then((roles) => this.setRoles(roles))
+      .catch((err) => this.setError(err))
       .finally(() => this.setLoading(false));
   }
 

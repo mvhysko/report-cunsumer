@@ -1,0 +1,50 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "extends": ["plugin:react/recommended", "plugin:@typescript-eslint/recommended"],
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "ignorePatterns": ["src/api/graphql.ts"],
+  "rules": {
+    "semi": "warn",
+		"quotes": ["error", "single", { "allowTemplateLiterals": true }],
+		"object-curly-spacing": ["warn", "always"],
+		"no-unused-vars": "off",
+    "no-console": "error",
+		"@typescript-eslint/default-param-last": ["error"],
+		"@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+		"@typescript-eslint/no-non-null-assertion": "error",
+		"@typescript-eslint/no-empty-interface": "off",
+    "max-len": ["error", 150]
+  },
+  "overrides": [
+    {
+      "files": ["*.js"],
+      "rules": {
+        "@typescript-eslint/no-var-requires": "off",
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/camelcase": "off"
+      }
+    },
+    {
+      "files": ["**/*.tsx"],
+      "rules": {
+        "react/prop-types": "off"
+      }
+    }
+  ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "import/resolver": {
+      "node": {
+        "paths": ["src"]
+      }
+    }
+  }
+}

@@ -1,5 +1,5 @@
+import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
-import { FC, useEffect } from 'react';
 import { Button } from '../../../../components';
 import { roleState } from '../../store';
 
@@ -8,7 +8,7 @@ export interface RoleDetailsProps {
   close: () => void;
 }
 
-export const RoleDetails: FC<RoleDetailsProps> = observer(({ roleId, close }) => {
+export const RoleDetails: React.FC<RoleDetailsProps> = observer(({ roleId, close }): React.ReactElement => {
   const { loading, role } = roleState;
 
   useEffect(() => {
@@ -21,7 +21,6 @@ export const RoleDetails: FC<RoleDetailsProps> = observer(({ roleId, close }) =>
 
   return (
     <div>
-
       <div>
         <div>
           <h1>{role?.name}</h1>
@@ -32,10 +31,7 @@ export const RoleDetails: FC<RoleDetailsProps> = observer(({ roleId, close }) =>
         </div>
       </div>
 
-      <div>
-        {/* Related report list */}
-      </div>
-
+      <div>{/* Related report list */}</div>
     </div>
   );
 });
