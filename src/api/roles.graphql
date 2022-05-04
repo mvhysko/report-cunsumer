@@ -1,0 +1,22 @@
+fragment Role on Role {
+  id
+  name
+}
+
+query getRoles {
+  getRoles {
+    edges {
+      cursor
+      node {
+        ...Role
+      }
+    }
+    total
+  }
+}
+
+query getRole($id: String!) {
+  getRole(id: $id) {
+    ...Role
+  }
+}

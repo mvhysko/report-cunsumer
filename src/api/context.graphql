@@ -1,0 +1,12 @@
+fragment User on User {
+  isAdmin
+  name
+  username
+  email
+}
+
+query me {
+  me {
+    ...User
+  }
+}
