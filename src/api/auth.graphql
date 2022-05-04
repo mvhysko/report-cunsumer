@@ -1,0 +1,22 @@
+fragment TokenResponse on TokenResponse {
+  accessToken
+  expiresIn
+}
+
+mutation login($input: SignInInput!) {
+  login(input: $input) {
+    ...TokenResponse
+  }
+}
+
+mutation logout {
+  logout {
+    success
+  }
+}
+
+mutation token {
+  refreshToken {
+    ...TokenResponse
+  }
+}

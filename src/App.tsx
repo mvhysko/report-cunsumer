@@ -1,26 +1,52 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { observer } from 'mobx-react-lite';
+import { useEffect } from 'react';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import { Header } from './components';
+import { contextState } from './context';
+import { authState, LoginPage } from './libs/auth';
+import { ReportsPage } from './libs/report';
+import { RolesPage } from './libs/role';
 
-function App() {
+export const App = observer(() => {
+  const { token, isAuth, isAdmin, loaded } = contextState;
+
+  useEffect(() => {
+    if (token) {
+        authState
+          .refresh()
+          .finally(() => contextState.setLoaded());
+    } else {
+      contextState.setLoaded();
+    }
+  }, []);
+
+  if (!loaded) {
+    return (<Header />);
+  }
+
+  const navigateTo = isAuth
+    ? (isAdmin ? '/roles' : '/reports-panel')
+    : '/login';
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    <>
+      <Header />
 
-export default App;
+      <Routes>
+        <Route path='/login' element={<LoginPage />}/>
+        { isAuth &&
+          <>
+            { isAdmin &&
+              <>
+                <Route path='/roles' element={<RolesPage />}/>
+                <Route path='/reports' element={<ReportsPage />}/>
+              </>
+            }
+            <Route path='/reports-panel' element={<ReportsPage />}/>
+          </>
+        }
+        <Route path='*' element={<Navigate replace to={navigateTo} />}/>
+      </Routes>
+    </>
+  );
+});

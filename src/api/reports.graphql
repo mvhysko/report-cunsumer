@@ -1,0 +1,17 @@
+fragment Report on Report {
+  id
+  name
+  link
+}
+
+query getReports {
+  getReports {
+    edges {
+      cursor
+      node {
+        ...Report
+      }
+    }
+    total
+  }
+}

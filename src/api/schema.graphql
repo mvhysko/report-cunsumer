@@ -1,0 +1,151 @@
+type Query {
+  getReports(filter: ReportFilterInput, pagination: ConnectionArgs): ReportConnection!
+  getReport(id: String!): Report!
+  getReportsConfig: ReportConfig!
+  getRoles(filter: RoleFilterInput, pagination: ConnectionArgs): RoleConnection!
+  getRole(id: String!): Role!
+  me: User!
+}
+
+type ReportConnection {
+  edges: [ReportEdge!]!
+  total: Int!
+}
+
+type ReportEdge {
+  node: Report!
+
+  """Used in `before` and `after` args"""
+  cursor: String!
+}
+
+"""Report"""
+type Report {
+  id: String!
+  name: String!
+  link: String!
+  roles(filter: RoleFilterInput, pagination: ConnectionArgs): RoleConnection
+}
+
+type RoleConnection {
+  edges: [RoleEdge!]!
+  total: Int!
+}
+
+type RoleEdge {
+  node: Role!
+
+  """Used in `before` and `after` args"""
+  cursor: String!
+}
+
+"""Role"""
+type Role {
+  id: String!
+  name: String!
+  reports(filter: ReportFilterInput, pagination: ConnectionArgs): ReportConnection
+}
+
+input ReportFilterInput {
+  textSearch: String
+}
+
+input ConnectionArgs {
+  offset: Int = 0
+  limit: Int = 25
+}
+
+input RoleFilterInput {
+  textSearch: String
+}
+
+"""ReportConfig"""
+type ReportConfig {
+  iFrames: Float!
+  credentials: ReportCredentials
+}
+
+"""ReportCredentials"""
+type ReportCredentials {
+  username: String!
+  password: String!
+}
+
+"""User"""
+type User {
+  username: String!
+  name: String!
+  email: String
+  ip: String
+  isAdmin: Boolean!
+}
+
+type Mutation {
+  reportCreate(input: CreateReportInput!): Report!
+  reportPatch(input: PatchReportInput!, id: String!): Report!
+  reportRemove(id: String!): OperationStatus!
+  reportsConfigPatch(input: PatchReportConfigInput!): ReportConfig!
+  roleCreate(input: CreateRoleInput!): Role!
+  rolePatch(input: PatchRoleInput!, id: String!): Role!
+  roleRemove(id: String!): OperationStatus!
+  roleUpdatePermissions(input: UpdateRolePermissionsInput!): OperationStatus!
+  login(input: SignInInput!): TokenResponse!
+  refreshToken: TokenResponse!
+  logout: OperationStatus!
+}
+
+input CreateReportInput {
+  name: String!
+  link: String!
+}
+
+input PatchReportInput {
+  name: String
+  link: String
+}
+
+type OperationStatus {
+  success: Boolean!
+}
+
+input PatchReportConfigInput {
+  iFrames: Int
+  credentials: ReportCredentialsInput
+}
+
+input ReportCredentialsInput {
+  username: String!
+  password: String!
+}
+
+input CreateRoleInput {
+  name: String!
+}
+
+input PatchRoleInput {
+  name: String
+}
+
+input UpdateRolePermissionsInput {
+  reports: [ReportsPermissionsInput!]
+}
+
+input ReportsPermissionsInput {
+  roleId: String!
+  add: [String!]
+  remove: [String!]
+}
+
+"""Token response view."""
+type TokenResponse {
+  accessToken: String!
+  expiresIn: Int!
+}
+
+input SignInInput {
+  """The user name for login."""
+  username: String!
+
+  """The password for login in clear text."""
+  password: String!
+}
