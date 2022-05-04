@@ -1,9 +1,9 @@
+import React from 'react';
 import { observer } from 'mobx-react-lite';
-import { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 import contextState from '../../context/store/context.state';
 
-export const Header: FC = observer(() => {
+export const Header: React.FC = observer(() => {
   const { isAuth, isAdmin } = contextState;
 
   if (!isAuth) {
@@ -12,13 +12,13 @@ export const Header: FC = observer(() => {
 
   return (
     <div>
-      { isAdmin &&
+      {isAdmin && (
         <>
-          <NavLink to='roles'>Roles</NavLink>
-          <NavLink to='reports'>Reports</NavLink>
+          <NavLink to="roles">Roles</NavLink>
+          <NavLink to="reports">Reports</NavLink>
         </>
-      }
-      <NavLink to='reports-panel'>Report panel</NavLink>
+      )}
+      <NavLink to="reports-panel">Report panel</NavLink>
     </div>
   );
 });

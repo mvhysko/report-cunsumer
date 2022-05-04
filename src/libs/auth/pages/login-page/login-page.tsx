@@ -16,7 +16,7 @@ export const LoginPage: React.FC = observer(() => {
   const submit = (event: React.FormEvent) => {
     event.preventDefault();
     authState.login(credentials).then(() => navigate('/'));
-  }
+  };
 
   return (
     <div>
@@ -25,7 +25,6 @@ export const LoginPage: React.FC = observer(() => {
       {error ? <div>{error.message}</div> : ''}
 
       <form onSubmit={submit}>
-
         <div>
           <label>User name</label>
           <input
@@ -47,10 +46,11 @@ export const LoginPage: React.FC = observer(() => {
         </div>
 
         <div>
-          <button disabled={loading} type='submit'>Login</button>
+          <button disabled={loading} type="submit">
+            Login
+          </button>
         </div>
-
       </form>
     </div>
   );
-})
+});

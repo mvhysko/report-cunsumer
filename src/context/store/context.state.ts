@@ -6,7 +6,7 @@ export class ContextState {
 
   private _token: string | null = window.localStorage.getItem(ContextState.TOKEN_STORAGE_KEY);
   private _user: User | null = null;
-  private _loaded: boolean = false;
+  private _loaded = false;
 
   get token(): string | null {
     return this._token;

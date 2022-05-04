@@ -3,8 +3,8 @@ import { apiClient, GetReportsDocument, ReportFragment } from '../../../api';
 
 class ReportsState {
   private _reports: ReportFragment[] = [];
-  private _total: number = 0;
-  private _loading: boolean = false;
+  private _total = 0;
+  private _loading = false;
 
   get reports(): ReportFragment[] {
     return this._reports;
@@ -27,24 +27,25 @@ class ReportsState {
   }
 
   public remove(id: string): void {
-    this._reports = this._reports.filter(r => r.id !== id);
+    this._reports = this._reports.filter((r) => r.id !== id);
   }
 
   public fetch(): void {
     this._loading = true;
 
-    apiClient.query({ query: GetReportsDocument })
-      .then(({ data, loading }) => {
-        if (!loading) {
-          this._total = data?.getReports.total || 0;
-          this._reports = data?.getReports.edges.map((r: { node: any; }) => r.node) || [];
+    apiClient.query({ query: GetReportsDocument }).then(({ data, loading }) => {
+      if (!loading) {
+        this._total = data?.getReports.total || 0;
+        this._reports = data?.getReports.edges.map((r: { node: any }) => r.node) || [];
 
-          this._loading = false;
-          console.log('REPORTS ARE LOADED!');
-        } else {
-          console.log('REPORTS ARE LOADING...');
-        }
-      });
+        this._loading = false;
+        // eslint-disable-next-line no-console
+        console.log('REPORTS ARE LOADED!');
+      } else {
+        // eslint-disable-next-line no-console
+        console.log('REPORTS ARE LOADING...');
+      }
+    });
   }
 }
 

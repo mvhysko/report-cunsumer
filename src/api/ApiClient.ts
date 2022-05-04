@@ -1,42 +1,41 @@
 import { ApolloClient, createHttpLink, from, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
-import { setContext } from "@apollo/client/link/context";
+import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
 import contextState from '../context/store/context.state';
 
 export class ApolloApiClient {
   private static instance: ApolloClient<NormalizedCacheObject>;
 
-  private constructor() {}
-
   public static getInstance(): ApolloClient<NormalizedCacheObject> {
     const link = from([
       setContext((_, { headers }) => ({
         headers: {
           ...headers,
-          authorization: `Bearer ${contextState.token}`
-        }
+          authorization: `Bearer ${contextState.token}`,
+        },
       })),
       onError(({ graphQLErrors, networkError }) => {
         if (graphQLErrors) {
           graphQLErrors.forEach(({ message, locations, path }) =>
-            console.log(
-              `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-            )
+            // eslint-disable-next-line no-console
+            console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`)
           );
         }
 
         if (networkError) {
+          // eslint-disable-next-line no-console
           console.log(`[Network error]: ${networkError}`);
         }
       }),
       createHttpLink({
         uri: process.env.REACT_APP_PROXY,
-        credentials: 'include'
+        credentials: 'include',
       }),
     ]);
 
     if (!ApolloApiClient.instance) {
-      console.log('API CLIENT CREATED!')
+      // eslint-disable-next-line no-console
+      console.log('API CLIENT CREATED!');
       ApolloApiClient.instance = new ApolloClient({
         link,
         cache: new InMemoryCache(),

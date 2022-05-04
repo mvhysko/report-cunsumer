@@ -4,7 +4,7 @@ import { Credentials, authService } from '../services';
 
 export class AuthState {
   private _error?: Error;
-  private _loading: boolean = false;
+  private _loading = false;
 
   get loading(): boolean {
     return this._loading;
@@ -22,11 +22,12 @@ export class AuthState {
     this.setLoading(true);
     this.setError();
 
-    return authService.login(credentials)
-      .then(data => contextState.setToken(data.accessToken))
+    return authService
+      .login(credentials)
+      .then((data) => contextState.setToken(data.accessToken))
       .then(() => authService.me())
       .then((user) => contextState.setUser(user))
-      .catch(err => {
+      .catch((err) => {
         this.setError(err);
         throw err;
       })
@@ -37,11 +38,12 @@ export class AuthState {
     this.setLoading(true);
     this.setError();
 
-    return authService.token()
-      .then(data => contextState.setToken(data.accessToken))
+    return authService
+      .token()
+      .then((data) => contextState.setToken(data.accessToken))
       .then(() => authService.me())
       .then((user) => contextState.setUser(user))
-      .catch(err => {
+      .catch((err) => {
         this.setError(err);
         throw err;
       })
@@ -52,8 +54,10 @@ export class AuthState {
     contextState.setToken(null);
     contextState.setUser(null);
 
-    authService.logout()
-      .catch(err => console.error(err));
+    authService
+      .logout()
+      // eslint-disable-next-line no-console
+      .catch((err) => console.error(err));
   }
 
   private setLoading(loading: boolean): void {
