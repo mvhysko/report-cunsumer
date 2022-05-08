@@ -34,8 +34,12 @@
   "lint-staged": {
     "*.ts": [
       "eslint --fix",
-      "prettier --write",
-      "git add"
+      "prettier --write"
+    ]
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
     ]
   },
   "eslintConfig": {
@@ -75,10 +79,5 @@
     "lint-staged": "^12.4.1",
     "prettier": "^2.6.2",
     "semantic-release": "^19.0.2"
-  },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
   }
 }
